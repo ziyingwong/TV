@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto" android:orientation="vertical"
+              android:background="#EEEEEE"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="27dp"
+            android:layout_marginBottom="27dp"
+            android:layout_marginLeft="48dp"
+            android:layout_marginRight="48dp">
+
+        <TextView
+                android:text="SuperWiser"
+                android:textColor="@color/search_opaque"
+                android:textSize="34sp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/textView" android:layout_alignParentEnd="true"
+                android:layout_marginEnd="0dp" android:layout_alignParentStart="true" android:layout_marginStart="0dp"
+                android:layout_marginTop="27dp"/>
+
+        <ImageView
+                android:layout_width="841dp"
+                android:layout_height="125dp" android:src="@drawable/bg_rail" android:id="@+id/imageView2"
+                android:layout_alignParentBottom="true" android:layout_marginBottom="-23dp"
+                android:layout_marginStart="0dp" android:layout_marginEnd="1dp"
+                android:visibility="visible"/>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="278dp"
+                      android:background="@drawable/login_container"
+                      android:gravity="center"
+                      android:backgroundTint="@color/fastlane_background" android:layout_alignParentBottom="true"
+                      android:layout_marginBottom="113dp" android:layout_marginTop="22dp"
+                      android:layout_below="@+id/textView" android:layout_alignParentStart="true"
+                      android:layout_marginStart="0dp" android:layout_alignParentEnd="true"
+                      android:layout_marginEnd="0dp" android:orientation="vertical">
+
+
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:src="@drawable/icon_nametag"
+                    android:id="@+id/imageView" android:layout_weight="1" android:visibility="visible"/>
+            <TextView
+                    android:text="Login"
+                    android:textColor="@color/search_opaque"
+                    android:textStyle="bold"
+                    android:textSize="24sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/login" android:layout_weight="1"/>
+            <EditText
+                    android:layout_width="555dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:ems="10"
+                    android:id="@+id/email" android:layout_weight="1" android:drawableLeft="@drawable/email"
+                    android:hint="Email"/>
+            <EditText
+                    android:layout_width="555dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:ems="10"
+                    android:id="@+id/password" android:layout_weight="1" android:drawableLeft="@drawable/password"
+                    android:hint="Password"/>
+        <Button
+                android:layout_width="555dp"
+                android:backgroundTint="@color/lb_action_text_color"
+                android:textColor="@color/fastlane_background"
+                android:layout_height="wrap_content" android:id="@+id/button2" android:layout_weight="1"
+                android:text="Login"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

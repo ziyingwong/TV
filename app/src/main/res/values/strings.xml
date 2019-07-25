@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">SuperwiserTV</string>
+    <string name="browse_title"><![CDATA[SuperWiser]]></string>
+    <string name="related_movies">Related Videos</string>
+    <string name="grid_view">Setting</string>
+    <string name="error_fragment">Error Fragment</string>
+    <string name="try_playback">Try Playback</string>
+    <string name="try_setinterval">Try Set Interval</string>
+    <string name="guided_step_fragment">Guided Step Fragment</string>
+    <string name="personal_settings">Logout</string>
+    <string name="watch_trailer_1">Watch trailer</string>
+    <string name="watch_trailer_2">FREE</string>
+    <string name="rent_1">Rent By Day</string>
+    <string name="rent_2">From $1.99</string>
+    <string name="buy_1">Buy and Own</string>
+    <string name="buy_2">AT $9.99</string>
+    <string name="movie">Movie</string>
+
+    <!-- Error messages -->
+    <string name="error_fragment_message">An error occurred</string>
+    <string name="dismiss_error">Dismiss</string>
+    <!-- Error messages2 -->
+    <string name="scene_not_found_message">Scene not found</string>
+    <string name="scene_not_found_message_small">Scene name entered cannot be found.</string>
+    <!-- Error messages3 -->
+    <string name="email_sent_message">Email sent</string>
+    <string name="email_sent_message_small">Please check your mailbox and reset your password using the link in the email.</string>
+</resources>

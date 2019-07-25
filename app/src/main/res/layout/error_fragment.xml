@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:id="@+id/error_frame"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:focusable="true"
+             android:focusableInTouchMode="true"
+             android:descendantFocusability="afterDescendants"
+             android:nextFocusLeft="@id/error_frame"
+             android:nextFocusRight="@id/error_frame"
+             android:nextFocusUp="@id/error_frame"
+             android:nextFocusDown="@id/error_frame">
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+        <ImageView
+                android:id="@+id/image"
+                android:layout_width="150sp"
+                android:layout_height="150sp"
+                android:layout_marginBottom="-20sp"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+        <TextView
+                android:id="@+id/message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxWidth="@dimen/lb_error_message_max_width"
+                android:visibility="gone"
+                android:textSize="24sp"/>
+        <TextView
+                android:id="@+id/message_small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10sp"
+                android:maxWidth="@dimen/lb_error_message_max_width"
+                android:visibility="gone"
+                android:textSize="16sp"/>
+        <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:nextFocusLeft="@id/button"
+                android:nextFocusRight="@id/button"
+                android:nextFocusUp="@id/button"
+                android:nextFocusDown="@id/button"
+                style="?android:attr/buttonStyle"/>
+    </LinearLayout>
+
+    <include layout="@layout/lb_browse_title" />
+
+</FrameLayout>

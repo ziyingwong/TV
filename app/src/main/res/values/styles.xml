@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="@style/Theme.Leanback"/>
+    <!--<style name="AppTheme.Leanback.Browse.Row" parent="@style/Theme.Leanback.Browse">-->
+        <!--<item name="rowHeaderStyle">@style/AppTheme.Leanback.Row</item>-->
+    <!--</style>-->
+
+    <!--<style name="AppTheme.Leanback.Browse.Header" parent="@style/AppTheme.Leanback.Browse.Row">-->
+        <!--<item name="rowHeaderStyle">@style/AppTheme.Leanback.Header</item>-->
+    <!--</style>-->
+
+    <!--<style name="AppTheme.Leanback.Row" parent="Widget.Leanback.Row.Header">-->
+        <!--<item name="android:textColor">@color/selected_background</item>-->
+    <!--</style>-->
+
+    <!--<style name="AppTheme.Leanback.Header" parent="Widget.Leanback.Row.Header">-->
+        <!--<item name="android:textColor">@color/fastlane_background</item>-->
+    <!--</style>-->
+</resources>
