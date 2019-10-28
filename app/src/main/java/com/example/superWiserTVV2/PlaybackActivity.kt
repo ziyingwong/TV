@@ -12,20 +12,20 @@
  * the License.
  */
 
-package com.example.superwisertv
+package com.example.superWiserTVV2
 
-import android.app.Activity
 import android.os.Bundle
+import android.support.v4.app.FragmentActivity
 
-/**
- * Loads [MainFragment].
- */
-class MainActivity : Activity() {
+/** Loads [PlaybackVideoFragment]. */
+class PlaybackActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main)
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(android.R.id.content, PlaybackVideoFragment())
+                .commit()
+        }
     }
 }
-
-

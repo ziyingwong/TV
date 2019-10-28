@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package com.example.superwisertv;
+package com.example.superWiserTVV2;
 
 import android.graphics.Paint;
 import android.graphics.Paint.FontMetricsInt;
@@ -11,8 +11,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v17.leanback.R.color;
 import android.support.v17.leanback.R.dimen;
-import android.support.v17.leanback.R.id;
-import android.support.v17.leanback.R.layout;
 import android.support.v17.leanback.app.BrandedFragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -21,7 +19,6 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 

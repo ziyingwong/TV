@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.example.superwisertv
+package com.example.superWiserTVV2
 
 object MovieList {
     val MOVIE_CATEGORY = arrayOf(

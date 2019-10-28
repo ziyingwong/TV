@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto" android:orientation="vertical"
-              android:background="#EEEEEE"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+                android:background="#EEEEEE"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
+    <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:scaleX="0.3"
+            android:visibility="invisible"
+            android:scaleY="0.3"
+            android:translationZ="1dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"/>
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -19,8 +32,12 @@
                 android:textSize="34sp"
                 android:textAlignment="center"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/textView" android:layout_alignParentEnd="true"
-                android:layout_marginEnd="0dp" android:layout_alignParentStart="true" android:layout_marginStart="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="0dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
                 android:layout_marginTop="27dp"/>
 
         <ImageView
@@ -33,7 +50,8 @@
         <LinearLayout android:layout_width="match_parent" android:layout_height="278dp"
                       android:background="@drawable/login_container"
                       android:gravity="center"
-                      android:backgroundTint="@color/fastlane_background" android:layout_alignParentBottom="true"
+                      android:backgroundTint="@color/fastlane_background"
+                      android:layout_alignParentBottom="true"
                       android:layout_marginBottom="113dp" android:layout_marginTop="22dp"
                       android:layout_below="@+id/textView" android:layout_alignParentStart="true"
                       android:layout_marginStart="0dp" android:layout_alignParentEnd="true"
@@ -56,21 +74,23 @@
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
                     android:ems="10"
-                    android:id="@+id/email" android:layout_weight="1" android:drawableLeft="@drawable/email"
+                    android:id="@+id/emailEditText" android:layout_weight="1" android:drawableLeft="@drawable/email"
                     android:hint="Email"/>
             <EditText
                     android:layout_width="555dp"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
                     android:ems="10"
-                    android:id="@+id/password" android:layout_weight="1" android:drawableLeft="@drawable/password"
+                    android:id="@+id/passwordEditText" android:layout_weight="1"
+                    android:drawableLeft="@drawable/password"
                     android:hint="Password"/>
-        <Button
-                android:layout_width="555dp"
-                android:backgroundTint="@color/lb_action_text_color"
-                android:textColor="@color/fastlane_background"
-                android:layout_height="wrap_content" android:id="@+id/button2" android:layout_weight="1"
-                android:text="Login"/>
+
+            <Button
+                    android:layout_width="555dp"
+                    android:backgroundTint="@color/lb_action_text_color"
+                    android:textColor="@color/fastlane_background"
+                    android:layout_height="wrap_content" android:id="@+id/loginButton" android:layout_weight="1"
+                    android:text="Login"/>
         </LinearLayout>
 
     </RelativeLayout>

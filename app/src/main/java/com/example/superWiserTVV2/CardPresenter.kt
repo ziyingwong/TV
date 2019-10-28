@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.example.superwisertv
+package com.example.superWiserTVV2
 
 import android.graphics.drawable.Drawable
 import android.support.v17.leanback.widget.ImageCardView
@@ -28,7 +28,7 @@ import kotlin.properties.Delegates
  * A CardPresenter is used to generate Views and bind Objects to them on demand.
  * It contains an ImageCardView.
  */
-class CardPresenter : Presenter() {
+class CardPresenter : Presenter(){
     private var mDefaultCardImage: Drawable? = null
     private var sSelectedBackgroundColor: Int by Delegates.notNull()
     private var sDefaultBackgroundColor: Int by Delegates.notNull()
@@ -54,16 +54,26 @@ class CardPresenter : Presenter() {
     }
 
     override fun onBindViewHolder(viewHolder: Presenter.ViewHolder, item: Any) {
-        val movie = item as Movie
         val cardView = viewHolder.view as ImageCardView
+        if (item is Movie) {
+            val movie = item
 
-        Log.d(TAG, "onBindViewHolder")
-        if (movie.cardImageUrl != null) {
-            cardView.titleText = movie.title
-            cardView.contentText = movie.studio
+            Log.d(TAG, "onBindViewHolder")
+            if (movie.cardImageUrl != null) {
+                cardView.titleText = movie.title
+                cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT)
+                Glide.with(viewHolder.view.context)
+                    .load(movie.cardImageUrl)
+                    .centerCrop()
+                    .error(mDefaultCardImage)
+                    .into(cardView.mainImageView)
+            }
+        }else if(item is Group){
+            val group = item
+            cardView.titleText = group.name
             cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT)
             Glide.with(viewHolder.view.context)
-                .load(movie.cardImageUrl)
+                .load(group.imageUrl)
                 .centerCrop()
                 .error(mDefaultCardImage)
                 .into(cardView.mainImageView)

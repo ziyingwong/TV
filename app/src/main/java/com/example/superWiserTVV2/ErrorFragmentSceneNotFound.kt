@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.example.superwisertv
+package com.example.superWiserTVV2
 
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -20,7 +20,7 @@ import android.view.View
 /**
  * This class demonstrates how to extend [android.support.v17.leanback.app.ErrorFragment].
  */
-class ErrorFragmentEmailSent : Fragment() {
+class ErrorFragmentSceneNotFound : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,14 +29,14 @@ class ErrorFragmentEmailSent : Fragment() {
     }
 
     internal fun setErrorContent() {
-        message = resources.getString(R.string.email_sent_message)
-        messageSmall = resources.getString(R.string.email_sent_message_small)
-        imageDrawable = ContextCompat.getDrawable(activity, R.drawable.email)
+        message = resources.getString(R.string.scene_not_found_message)
+        messageSmall = resources.getString(R.string.scene_not_found_message_small)
+        imageDrawable = ContextCompat.getDrawable(activity, R.drawable.warning)
         setDefaultBackground(TRANSLUCENT)
 
         buttonText = resources.getString(R.string.dismiss_error)
         buttonClickListener = View.OnClickListener {
-            fragmentManager.beginTransaction().remove(this@ErrorFragmentEmailSent).commit()
+            fragmentManager.beginTransaction().remove(this@ErrorFragmentSceneNotFound).commit()
         }
     }
 

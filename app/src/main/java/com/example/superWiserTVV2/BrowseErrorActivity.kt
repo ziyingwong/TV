@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.example.superwisertv
+package com.example.superWiserTVV2
 
 import android.app.Activity
 import android.app.Fragment
@@ -34,7 +34,7 @@ class BrowseErrorActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.main_fragment)
 
         testError()
     }

@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.example.superwisertv
+package com.example.superWiserTVV2
 
 import android.support.v17.leanback.widget.AbstractDetailsDescriptionPresenter
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
-          package="com.example.superwisertv">
+          package="com.example.superWiserTVV2">
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-feature
             android:name="android.hardware.touchscreen"
@@ -12,18 +12,11 @@
     <uses-feature
             android:name="android.hardware.faketouch"
             android:required="false"/>
-    <uses-feature
-            android:name="android.hardware.telephony"
-            android:required="false"/>
-    <uses-feature
-            android:name="android.hardware.camera"
-            android:required="false"/>
+
     <uses-feature
             android:name="android.hardware.nfc"
             android:required="false"/>
-    <uses-feature
-            android:name="android.hardware.location.gps"
-            android:required="false"/>
+
     <uses-feature
             android:name="android.hardware.microphone"
             android:required="false"/>
@@ -41,7 +34,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
-                android:name=".MainActivity"
+                android:name="com.example.superWiserTVV2.halfway.Login"
                 android:banner="@drawable/app_icon_your_company"
                 android:icon="@drawable/app_icon_your_company"
                 android:label="@string/app_name"
@@ -55,11 +48,15 @@
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".DetailsActivity"/>
-        <activity android:name=".PlaybackActivity"/>
-        <activity android:name=".BrowseErrorActivity"/>
-        <activity android:name=".GuidedStepActivityInvalidPassword"></activity>
-        <activity android:name=".GuidedStepActivitySetInterval"></activity>
+
+        <activity android:name="com.example.superWiserTVV2.DetailsActivity"/>
+        <activity android:name="com.example.superWiserTVV2.PlaybackActivity"/>
+        <activity android:name="com.example.superWiserTVV2.BrowseErrorActivity"/>
+        <activity android:name="com.example.superWiserTVV2.halfway.InvalidPassword"></activity>
+        <activity android:name="com.example.superWiserTVV2.GuidedStepActivitySetInterval"></activity>
+        <activity android:name=".halfway.MainActivity"></activity>
+        <activity android:name=".BErrorActivity"></activity>
+        <activity android:name=".EmailSent"></activity>
     </application>
 
 </manifest>

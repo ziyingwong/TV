@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.example.superwisertv
+package com.example.superWiserTVV2.halfway
 
 import java.util.Collections
 import java.util.Timer
@@ -37,6 +37,7 @@ import android.support.v17.leanback.widget.Row
 import android.support.v17.leanback.widget.RowPresenter
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.RecyclerView
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Gravity
@@ -48,25 +49,38 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.GlideDrawable
 import com.bumptech.glide.request.animation.GlideAnimation
 import com.bumptech.glide.request.target.SimpleTarget
+import com.example.superWiserTVV2.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirestoreRegistrar
 
 /**
  * Loads a grid of cards with movies to browse.
  */
 class MainFragment : BrowseFragment() {
 
-    private val mHandler = Handler()
-    private lateinit var mBackgroundManager: BackgroundManager
-    private var mDefaultBackground: Drawable? = null
-    private lateinit var mMetrics: DisplayMetrics
+    var auth = FirebaseAuth.getInstance()
+    var db = FirebaseFirestore.getInstance()
     private var mBackgroundTimer: Timer? = null
-    private var mBackgroundUri: String? = null
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         Log.i(TAG, "onCreate")
         super.onActivityCreated(savedInstanceState)
+        db.collection("Group").whereEqualTo("admin", auth.currentUser!!.uid)
+            .whereArrayContains("user", auth.currentUser!!.uid).get().addOnSuccessListener { snapshot ->
+                for (doc in snapshot.documents) {
+                    Log.e("myTag", doc.get("name").toString())
+                }
+            }
+        var query = db.collection("Group").whereEqualTo("admin", auth.currentUser!!.uid)
+            .whereArrayContains("user", auth.currentUser!!.uid)
 
-        prepareBackgroundManager()
-
+//        db.collection("Group").whereEqualTo("admin", DataContainer.admin)
+//            .whereArrayContains("user", auth.currentUser!!.uid).get().addOnSuccessListener { snapshot ->
+//            for (doc in snapshot.documents) {
+//                Log.e("myTag",doc.get("name").toString())
+//            }
+//        }
         setupUIElements()
 
         loadRows()
@@ -80,14 +94,6 @@ class MainFragment : BrowseFragment() {
         mBackgroundTimer?.cancel()
     }
 
-    private fun prepareBackgroundManager() {
-
-        mBackgroundManager = BackgroundManager.getInstance(activity)
-        mBackgroundManager.attach(activity.window)
-        mDefaultBackground = ContextCompat.getDrawable(activity, R.drawable.default_background)
-        mMetrics = DisplayMetrics()
-        activity.windowManager.defaultDisplay.getMetrics(mMetrics)
-    }
 
     private fun setupUIElements() {
         title = getString(R.string.browse_title)
@@ -102,7 +108,10 @@ class MainFragment : BrowseFragment() {
         searchAffordanceColor = ContextCompat.getColor(activity, R.color.search_opaque)
     }
 
+
+
     private fun loadRows() {
+
         val list = MovieList.list
 
         val rowsAdapter = ArrayObjectAdapter(ListRowPresenter())
@@ -119,17 +128,21 @@ class MainFragment : BrowseFragment() {
             val header = HeaderItem(i.toLong(), MovieList.MOVIE_CATEGORY[i])
             rowsAdapter.add(ListRow(header, listRowAdapter))
         }
+        val gridHeader1 = HeaderItem(NUM_ROWS.toLong(), "Group")
+        val gridRowAdapter1 = ArrayObjectAdapter(cardPresenter)
+        for (j in 0 until NUM_COLS-1) {
+            gridRowAdapter1.add(list[j%5])
+        }
+        val viewMore = Movie()
+        viewMore.title = "View more"
+        viewMore.cardImageUrl ="https://cdn.icon-icons.com/icons2/1509/PNG/512/viewmorehorizontal_104501.png"
+        gridRowAdapter1.add(viewMore)
+        rowsAdapter.add(ListRow(gridHeader1, gridRowAdapter1))
 
         val gridHeader = HeaderItem(NUM_ROWS.toLong(), "Settings")
-
         val mGridPresenter = GridItemPresenter()
         val gridRowAdapter = ArrayObjectAdapter(mGridPresenter)
-        gridRowAdapter.add(resources.getString(R.string.grid_view))
-        gridRowAdapter.add(getString(R.string.error_fragment))
-        gridRowAdapter.add(getString(R.string.guided_step_fragment))
-        gridRowAdapter.add(getString(R.string.try_setinterval))
-        gridRowAdapter.add(getString(R.string.try_playback))
-        gridRowAdapter.add(resources.getString(R.string.personal_settings))
+        gridRowAdapter.add(resources.getString(R.string.logout))
         rowsAdapter.add(ListRow(gridHeader, gridRowAdapter))
 
         adapter = rowsAdapter
@@ -140,9 +153,7 @@ class MainFragment : BrowseFragment() {
             Toast.makeText(activity, "Implement your own in-app search", Toast.LENGTH_LONG)
                 .show()
         }
-
         onItemViewClickedListener = ItemViewClickedListener()
-        onItemViewSelectedListener = ItemViewSelectedListener()
     }
 
     private inner class ItemViewClickedListener : OnItemViewClickedListener {
@@ -165,78 +176,35 @@ class MainFragment : BrowseFragment() {
                 )
                     .toBundle()
                 activity.startActivity(intent, bundle)
+            } else if (item is Group) {
+                Log.e("myTag", "clicked ${item.name}")
             } else if (item is String) {
-                if (item.contains(getString(R.string.error_fragment))) {
-                    val intent = Intent(activity, BrowseErrorActivity::class.java)
+                if (item.contains(resources.getString(R.string.logout))) {
+                    auth.signOut()
+                    val intent = Intent(activity, Login::class.java)
+                    activity.finishAffinity()
                     startActivity(intent)
-                } else if (item.contains(getString(R.string.guided_step_fragment))) {
-                    val intent = Intent(activity, GuidedStepActivityInvalidPassword::class.java)
-                    startActivity(intent)
-                } else if (item.contains(getString(R.string.try_playback))) {
-                    val intent = Intent(activity, PlaybackActivity::class.java)
-                    startActivity(intent)
-                } else if (item.contains(getString(R.string.try_setinterval))){
-                    val intent = Intent(activity, GuidedStepActivitySetInterval::class.java)
-                    startActivity(intent)
-                }
-                else {
-                    Toast.makeText(activity, item, Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
 
-    private inner class ItemViewSelectedListener : OnItemViewSelectedListener {
-        override fun onItemSelected(
-            itemViewHolder: Presenter.ViewHolder?, item: Any?,
-            rowViewHolder: RowPresenter.ViewHolder, row: Row
-        ) {
-            if (item is Movie) {
-                mBackgroundUri = item.backgroundImageUrl
-                startBackgroundTimer()
-            }
-        }
-    }
-
-    private fun updateBackground(uri: String?) {
-        val width = mMetrics.widthPixels
-        val height = mMetrics.heightPixels
-        Glide.with(activity)
-            .load(uri)
-            .centerCrop()
-            .error(mDefaultBackground)
-            .into<SimpleTarget<GlideDrawable>>(
-                object : SimpleTarget<GlideDrawable>(width, height) {
-                    override fun onResourceReady(
-                        resource: GlideDrawable,
-                        glideAnimation: GlideAnimation<in GlideDrawable>
-                    ) {
-                        mBackgroundManager.drawable = resource
-                    }
-                })
-        mBackgroundTimer?.cancel()
-    }
-
-    private fun startBackgroundTimer() {
-        mBackgroundTimer?.cancel()
-        mBackgroundTimer = Timer()
-        mBackgroundTimer?.schedule(UpdateBackgroundTask(), BACKGROUND_UPDATE_DELAY.toLong())
-    }
-
-    private inner class UpdateBackgroundTask : TimerTask() {
-
-        override fun run() {
-            mHandler.post { updateBackground(mBackgroundUri) }
-        }
-    }
 
     private inner class GridItemPresenter : Presenter() {
         override fun onCreateViewHolder(parent: ViewGroup): Presenter.ViewHolder {
             val view = TextView(parent.context)
-            view.layoutParams = ViewGroup.LayoutParams(GRID_ITEM_WIDTH, GRID_ITEM_HEIGHT)
+            view.layoutParams = ViewGroup.LayoutParams(
+                GRID_ITEM_WIDTH,
+                GRID_ITEM_HEIGHT
+            )
             view.isFocusable = true
             view.isFocusableInTouchMode = true
-            view.setBackgroundColor(ContextCompat.getColor(activity, R.color.default_background))
+            view.setBackgroundColor(
+                ContextCompat.getColor(
+                    activity,
+                    R.color.default_background
+                )
+            )
             view.setTextColor(Color.WHITE)
             view.gravity = Gravity.CENTER
             return Presenter.ViewHolder(view)
@@ -251,11 +219,9 @@ class MainFragment : BrowseFragment() {
 
     companion object {
         private val TAG = "MainFragment"
-
-        private val BACKGROUND_UPDATE_DELAY = 300
         private val GRID_ITEM_WIDTH = 200
         private val GRID_ITEM_HEIGHT = 200
         private val NUM_ROWS = 2
-        private val NUM_COLS = 15
+        private val NUM_COLS = 10
     }
 }

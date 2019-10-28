@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.example.superwisertv
+package com.example.superWiserTVV2
 
 import android.net.Uri
 import android.os.Bundle
@@ -20,7 +20,6 @@ import android.support.v17.leanback.app.VideoSupportFragment
 import android.support.v17.leanback.app.VideoSupportFragmentGlueHost
 import android.support.v17.leanback.media.MediaPlayerAdapter
 import android.support.v17.leanback.media.PlaybackGlueHost
-import android.support.v17.leanback.media.PlaybackTransportControlGlue
 import android.support.v17.leanback.widget.PlaybackControlsRow
 
 /** Handles video playback with media controls. */

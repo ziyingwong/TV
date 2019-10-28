@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.example.superwisertv
+package com.example.superWiserTVV2
 
 import android.content.Context
 import android.content.Intent
@@ -44,6 +44,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.GlideDrawable
 import com.bumptech.glide.request.animation.GlideAnimation
 import com.bumptech.glide.request.target.SimpleTarget
+import com.example.superWiserTVV2.halfway.Login
 
 import java.util.Collections
 
@@ -76,7 +77,7 @@ class VideoDetailsFragment : DetailsFragment() {
             initializeBackground(mSelectedMovie)
             onItemViewClickedListener = ItemViewClickedListener()
         } else {
-            val intent = Intent(activity, MainActivity::class.java)
+            val intent = Intent(activity, Login::class.java)
             startActivity(intent)
         }
     }

@@ -1,20 +1,14 @@
-package com.example.superwisertv;
+package com.example.superWiserTVV2;
 
 import android.content.Context;
-import android.support.v17.leanback.media.PlaybackBaseControlGlue;
 import android.support.v17.leanback.media.PlaybackTransportControlGlue;
 import android.support.v17.leanback.media.PlayerAdapter;
-import android.support.v17.leanback.widget.AbstractDetailsDescriptionPresenter;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.PlaybackControlsRow.SkipNextAction;
 import android.support.v17.leanback.widget.PlaybackControlsRow.SkipPreviousAction;
 import android.support.v17.leanback.widget.PlaybackControlsRow.PlayPauseAction;
 import android.support.v17.leanback.widget.PlaybackControlsRow.MoreActions;
-import android.support.v17.leanback.widget.PlaybackRowPresenter;
-import android.support.v17.leanback.widget.PlaybackTransportRowPresenter;
-import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 
 
 public class PlaybackTransportControlGlueAction<T extends PlayerAdapter> extends PlaybackTransportControlGlue {

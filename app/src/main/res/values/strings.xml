@@ -7,7 +7,7 @@
     <string name="try_playback">Try Playback</string>
     <string name="try_setinterval">Try Set Interval</string>
     <string name="guided_step_fragment">Guided Step Fragment</string>
-    <string name="personal_settings">Logout</string>
+    <string name="logout">Logout</string>
     <string name="watch_trailer_1">Watch trailer</string>
     <string name="watch_trailer_2">FREE</string>
     <string name="rent_1">Rent By Day</string>
