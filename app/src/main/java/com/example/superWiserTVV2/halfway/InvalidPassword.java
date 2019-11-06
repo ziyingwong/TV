@@ -11,7 +11,6 @@ import android.support.v17.leanback.widget.GuidanceStylist;
 import android.support.v17.leanback.widget.GuidedAction;
 import android.util.Log;
 import android.widget.Toast;
-import com.example.superWiserTVV2.DetailsActivity;
 import com.example.superWiserTVV2.EmailSent;
 import com.example.superWiserTVV2.R;
 import com.google.android.gms.tasks.OnFailureListener;

@@ -49,14 +49,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.example.superWiserTVV2.DetailsActivity"/>
-        <activity android:name="com.example.superWiserTVV2.PlaybackActivity"/>
         <activity android:name="com.example.superWiserTVV2.BrowseErrorActivity"/>
         <activity android:name="com.example.superWiserTVV2.halfway.InvalidPassword"></activity>
         <activity android:name="com.example.superWiserTVV2.GuidedStepActivitySetInterval"></activity>
         <activity android:name=".halfway.MainActivity"></activity>
-        <activity android:name=".BErrorActivity"></activity>
         <activity android:name=".EmailSent"></activity>
+        <activity android:name=".halfway.ViewMoreActivity"></activity>
     </application>
 
 </manifest>

@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.example.superWiserTVV2
+package com.example.superWiserTVV2.halfway
 
 import android.graphics.drawable.Drawable
 import android.support.v17.leanback.widget.ImageCardView
@@ -22,13 +22,14 @@ import android.util.Log
 import android.view.ViewGroup
 
 import com.bumptech.glide.Glide
+import com.example.superWiserTVV2.R
 import kotlin.properties.Delegates
 
 /**
  * A CardPresenter is used to generate Views and bind Objects to them on demand.
  * It contains an ImageCardView.
  */
-class CardPresenter : Presenter(){
+class CardPresenter : Presenter() {
     private var mDefaultCardImage: Drawable? = null
     private var sSelectedBackgroundColor: Int by Delegates.notNull()
     private var sDefaultBackgroundColor: Int by Delegates.notNull()
@@ -36,8 +37,12 @@ class CardPresenter : Presenter(){
     override fun onCreateViewHolder(parent: ViewGroup): Presenter.ViewHolder {
         Log.d(TAG, "onCreateViewHolder")
 
-        sDefaultBackgroundColor = ContextCompat.getColor(parent.context, R.color.default_background)
-        sSelectedBackgroundColor = ContextCompat.getColor(parent.context, R.color.selected_background)
+        sDefaultBackgroundColor = ContextCompat.getColor(parent.context,
+            R.color.default_background
+        )
+        sSelectedBackgroundColor = ContextCompat.getColor(parent.context,
+            R.color.selected_background
+        )
         mDefaultCardImage = ContextCompat.getDrawable(parent.context, R.drawable.movie)
 
         val cardView = object : ImageCardView(parent.context) {
@@ -55,25 +60,30 @@ class CardPresenter : Presenter(){
 
     override fun onBindViewHolder(viewHolder: Presenter.ViewHolder, item: Any) {
         val cardView = viewHolder.view as ImageCardView
-        if (item is Movie) {
-            val movie = item
+        cardView.setMainImageDimensions(
+            CARD_WIDTH,
+            CARD_HEIGHT
+        )
 
-            Log.d(TAG, "onBindViewHolder")
-            if (movie.cardImageUrl != null) {
-                cardView.titleText = movie.title
-                cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT)
-                Glide.with(viewHolder.view.context)
-                    .load(movie.cardImageUrl)
-                    .centerCrop()
-                    .error(mDefaultCardImage)
-                    .into(cardView.mainImageView)
-            }
-        }else if(item is Group){
+        if (item is Group) {
             val group = item
             cardView.titleText = group.name
-            cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT)
             Glide.with(viewHolder.view.context)
                 .load(group.imageUrl)
+                .centerCrop()
+                .error(mDefaultCardImage)
+                .into(cardView.mainImageView)
+        } else if (item is Card) {
+            cardView.titleText = item.title
+            Glide.with(viewHolder.view.context)
+                .load(item.imageUrl)
+                .centerCrop()
+                .error(mDefaultCardImage)
+                .into(cardView.mainImageView)
+        } else if(item is Scene){
+            cardView.titleText = item.name
+            Glide.with(viewHolder.view.context)
+                .load(item.thumbnail)
                 .centerCrop()
                 .error(mDefaultCardImage)
                 .into(cardView.mainImageView)
@@ -98,7 +108,6 @@ class CardPresenter : Presenter(){
 
     companion object {
         private val TAG = "CardPresenter"
-
         private val CARD_WIDTH = 313
         private val CARD_HEIGHT = 176
     }
