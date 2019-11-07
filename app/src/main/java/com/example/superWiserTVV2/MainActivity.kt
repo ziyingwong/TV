@@ -1,4 +1,4 @@
-package com.example.superWiserTVV2.halfway
+package com.example.superWiserTVV2
 
 import android.app.Activity
 import android.os.Bundle

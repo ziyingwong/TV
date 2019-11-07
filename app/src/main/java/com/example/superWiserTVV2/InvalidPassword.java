@@ -1,4 +1,4 @@
-package com.example.superWiserTVV2.halfway;
+package com.example.superWiserTVV2;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -11,8 +11,7 @@ import android.support.v17.leanback.widget.GuidanceStylist;
 import android.support.v17.leanback.widget.GuidedAction;
 import android.util.Log;
 import android.widget.Toast;
-import com.example.superWiserTVV2.EmailSent;
-import com.example.superWiserTVV2.R;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -98,8 +97,9 @@ public class InvalidPassword extends Activity {
 
         @Override
         public void onCreateActions(@NonNull List actions, Bundle savedInstanceState) {
-            addAction(actions, ACTION_BACK, "Cancel", "Change something here");
             addAction(actions, ACTION_CONTINUE, "Send", "Send reset password link to email");
+            addAction(actions, ACTION_BACK, "Cancel", "");
+
         }
 
         @Override

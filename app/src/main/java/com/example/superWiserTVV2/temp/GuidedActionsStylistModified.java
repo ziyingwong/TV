@@ -1,6 +1,8 @@
-package com.example.superWiserTVV2;
+package com.example.superWiserTVV2.temp;
 
 import android.support.v17.leanback.widget.GuidedActionsStylist;
+
+import com.example.superWiserTVV2.R;
 
 public class GuidedActionsStylistModified extends GuidedActionsStylist {
     @Override

@@ -12,9 +12,10 @@
  * the License.
  */
 
-package com.example.superWiserTVV2.halfway
+package com.example.superWiserTVV2
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -24,9 +25,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
-import com.example.superWiserTVV2.R
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 
 
 class Login : Activity() {
@@ -40,6 +42,7 @@ class Login : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login)
+        ipAdd = resources.getString(R.string.ipAdd)
         var emailEditText = findViewById<EditText>(R.id.emailEditText)
         var passwordEditText = findViewById<EditText>(R.id.passwordEditText)
         var loginButton = findViewById<Button>(R.id.loginButton)
@@ -68,49 +71,45 @@ class Login : Activity() {
                         if (task.isSuccessful) {
                             Log.e("myTag", "Success : Login")
                             var UID = auth.currentUser!!.uid
-                            val intent = Intent(this, MainActivity::class.java)
-                            startActivity(intent)
-
                             //API call to login to ThingsFactory
-//                                    val url = "http://${ipAdd}:300/login/"
-//                                    val jsonObjectRequest = JsonObjectRequest(
-//                                        Request.Method.GET,
-//                                        url,
-//                                        null,
-//                                        Response.Listener { response ->
-//                                            var token = response.getString("access_token")
-//                                            Log.e("myTag", "token ${token}")
-//                                            val sharedPref =
-//                                                this.getSharedPreferences("pref", 0)
-//                                            val editor = sharedPref.edit()
-//                                            editor.putString("token", token)
-//                                            editor.apply()
-//                                            cookiemanager.setCookie(
-//                                                "http://${ipAdd}:3000",
-//                                                "access_token=${token}"
-//                                            )
-//
+                            val url = "http://${ipAdd}:300/login/"
+                            val jsonObjectRequest = JsonObjectRequest(
+                                Request.Method.GET,
+                                url,
+                                null,
+                                Response.Listener { response ->
+                                    var token = response.getString("access_token")
+                                    Log.e("myTag", "token ${token}")
+                                    val sharedPref =
+                                        this.getSharedPreferences("pref", 0)
+                                    val editor = sharedPref.edit()
+                                    editor.putString("token", token)
+                                    editor.apply()
+                                    cookiemanager.setCookie(
+                                        "http://${ipAdd}:3000",
+                                        "access_token=${token}"
+                                    )
 
-//                                                val intent = Intent(this, MainActivity::class.java)
-//                                                startActivity(intent)
 
-//                                        },
-//                                        Response.ErrorListener { error ->
-//                                            Log.e("myTag", "Error : ${error}")
-//                                            var builder = AlertDialog.Builder(this)
-//                                            builder.setTitle("Fail to login")
-//                                            builder.setMessage("Server is off. Please try again later")
-//                                            builder.setNeutralButton("Ok") { dialog, which ->
-//                                                auth.signOut()
-//                                                finishAffinity()
-//                                                startActivity(Intent(this, General_Login::class.java))
-//                                            }
-//                                            builder.show()
-//                                        }
-//                                    )
-//                                    Singleton_Volley.getInstance(this@General_Login)
-//                                        .addToRequestQueue(jsonObjectRequest)
+                                    val intent = Intent(this, MainActivity::class.java)
+                                    startActivity(intent)
 
+                                },
+                                Response.ErrorListener { error ->
+                                    Log.e("myTag", "Error : ${error}")
+                                    var builder = AlertDialog.Builder(this)
+                                    builder.setTitle("Fail to login")
+                                    builder.setMessage("Server is off. Please try again later")
+                                    builder.setNeutralButton("Ok") { dialog, which ->
+                                        auth.signOut()
+                                        finishAffinity()
+                                        startActivity(Intent(this, Login::class.java))
+                                    }
+                                    builder.show()
+                                }
+                            )
+                            Singleton_Volley.getInstance(this@Login)
+                                .addToRequestQueue(jsonObjectRequest)
                         } else {
                             Log.e("myTag", "Failure : ${task.exception}")
                             var intent = Intent(this, InvalidPassword::class.java)
@@ -151,20 +150,21 @@ class Login : Activity() {
             loginButton.isClickable = false
             val sharedPref = this.getSharedPreferences("pref", 0)
             var token = sharedPref.getString("token", "")
-            if (token.isNullOrBlank()) {
-                Log.e("myTag", "sorry no token")
-                auth.signOut()
-                finishAffinity()
-                startActivity(Intent(this, Login::class.java))
-            } else {
+            if (token.isNullOrBlank() == false) {
                 cookiemanager.setCookie(
                     "http://${ipAdd}:3000",
                     "access_token=${token}"
                 )
-                Log.e("myTag", "token : ${token}")
+                var cookie = cookiemanager.getCookie("http://${ipAdd}:3000")
+                Log.e("myTag", "cookie : ${cookie}")
 
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
+            } else {
+                Log.e("myTag", "sorry no token ")
+                auth.signOut()
+                finishAffinity()
+                startActivity(Intent(this, Login::class.java))
             }
         }
     }

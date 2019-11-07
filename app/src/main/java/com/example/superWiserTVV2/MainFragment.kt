@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.example.superWiserTVV2.halfway
+package com.example.superWiserTVV2
 
 import java.util.Timer
 
@@ -21,7 +21,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.v17.leanback.app.BrowseFragment
 import android.support.v17.leanback.widget.*
-import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.Gravity
@@ -29,7 +28,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 
-import com.example.superWiserTVV2.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -42,18 +40,17 @@ class MainFragment : BrowseFragment() {
     var db = FirebaseFirestore.getInstance()
     private var mBackgroundTimer: Timer? = null
     var groups = ArrayList<Group>()
-    var playgroups = ArrayList<Group>()
+    var playgroups = ArrayList<PlayGroup>()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        Log.i(TAG, "onCreate")
         super.onActivityCreated(savedInstanceState)
-        db.collection("Group").whereEqualTo("admin", auth.currentUser!!.uid)
-            .whereArrayContains("user", auth.currentUser!!.uid).addSnapshotListener { snapshot, e ->
+        db.collection("Group").whereArrayContains("user", auth.currentUser!!.uid)
+            .addSnapshotListener { snapshot, e ->
                 if (e != null) {
-                Log.e("myTag","Listen Failed ${e}")
+                    Log.e("myTag", "Listen Failed ${e}")
                     return@addSnapshotListener
                 }
-                if(snapshot!=null){
+                if (snapshot != null) {
                     groups.clear()
                     for (doc in snapshot.documents) {
                         var group = doc.toObject(Group::class.java)
@@ -61,25 +58,25 @@ class MainFragment : BrowseFragment() {
                         Log.e("myTag", group.name)
                     }
                     loadRows()
-                }else{
+                } else {
                     Log.e("myTag", "snapshot null")
                 }
             }
-        db.collection("PlayGroup").whereEqualTo("admin", auth.currentUser!!.uid)
-            .whereArrayContains("user", auth.currentUser!!.uid).addSnapshotListener { snapshot, e ->
+        db.collection("PlayGroup").whereArrayContains("user", auth.currentUser!!.uid)
+            .addSnapshotListener { snapshot, e ->
                 if (e != null) {
-                    Log.e("myTag","Listen Failed ${e}")
+                    Log.e("myTag", "Listen Failed ${e}")
                     return@addSnapshotListener
                 }
-                if(snapshot!=null){
+                if (snapshot != null) {
                     playgroups.clear()
                     for (doc in snapshot.documents) {
-                        var playgroup = doc.toObject(Group::class.java)
-                        playgroups.add(playgroup as Group)
+                        var playgroup = doc.toObject(PlayGroup::class.java)
+                        playgroups.add(playgroup as PlayGroup)
                         Log.e("myTag", playgroup.name)
                     }
                     loadRows()
-                }else{
+                } else {
                     Log.e("myTag", "snapshot null")
                 }
             }
@@ -90,7 +87,6 @@ class MainFragment : BrowseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(TAG, "onDestroy: " + mBackgroundTimer?.toString())
         mBackgroundTimer?.cancel()
     }
 
@@ -108,14 +104,19 @@ class MainFragment : BrowseFragment() {
         val cardPresenter = CardPresenter()
         val groupRowAdapter = ArrayObjectAdapter(cardPresenter)
         val rowsAdapter = ArrayObjectAdapter(ListRowPresenter())
-        var viewMorecard = Card()
-        viewMorecard.imageUrl = "https://cdn.icon-icons.com/icons2/1509/PNG/512/viewmorehorizontal_104501.png"
-        viewMorecard.title = "View More"
+
         if (groups.size > NUM_COLS) {
             for (j in 0 until NUM_COLS) {
                 groupRowAdapter.add(groups[j])
             }
+            var viewMorecard = Card()
+            viewMorecard.imageUrl =
+                "https://cdn.icon-icons.com/icons2/1509/PNG/512/viewmorehorizontal_104501.png"
+            viewMorecard.title = "View More"
+            viewMorecard.type = "group"
             groupRowAdapter.add(viewMorecard)
+
+
         } else {
             for (j in 0 until groups.size) {
                 groupRowAdapter.add(groups[j])
@@ -130,7 +131,13 @@ class MainFragment : BrowseFragment() {
             for (j in 0 until NUM_COLS) {
                 playgroupRowAdapter.add(playgroups[j])
             }
-            playgroupRowAdapter.add(viewMorecard)
+
+            var viewMorecard2 = Card()
+            viewMorecard2.imageUrl =
+                "https://cdn.icon-icons.com/icons2/1509/PNG/512/viewmorehorizontal_104501.png"
+            viewMorecard2.title = "View More"
+            viewMorecard2.type = "playgroup"
+            playgroupRowAdapter.add(viewMorecard2)
 
         } else {
             for (j in 0 until playgroups.size) {
@@ -165,21 +172,23 @@ class MainFragment : BrowseFragment() {
         ) {
 
             if (item is Group) {
-                Log.d(TAG, "Item: " + item.toString())
-                val intent = Intent(activity,ViewMoreActivity::class.java)
-                intent.putExtra("groupid",item.id)
-                intent.putExtra("groupname",item.name)
-                intent.putExtra("admin",item.admin)
+                val intent = Intent(activity, ViewGroupSceneActivity::class.java)
+                intent.putExtra("groupid", item.id)
+                intent.putExtra("viewingPageName", item.name)
+                intent.putExtra("type", "group")
                 activity.startActivity(intent)
-//                val intent = Intent(activity, DetailsActivity::class.java)
-//                intent.putExtra(DetailsActivity.MOVIE, item)
-//                val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-//                    activity,
-//                    (itemViewHolder.view as ImageCardView).mainImageView,
-//                    DetailsActivity.SHARED_ELEMENT_NAME
-//                )
-//                    .toBundle()
-//                activity.startActivity(intent, bundle)
+
+            } else if (item is PlayGroup) {
+                val intent = Intent(activity, ViewGroupSceneActivity::class.java)
+                intent.putExtra("groupid", item.id)
+                intent.putExtra("viewingPageName", item.name)
+                intent.putExtra("type", "playgroup")
+                activity.startActivity(intent)
+            } else if (item is Card) {
+                val intent = Intent(activity, ViewGroupSceneActivity::class.java)
+                intent.putExtra("viewingPageName", "viewmore")
+                intent.putExtra("type", item.type)
+                activity.startActivity(intent)
             } else if (item is String) {
                 if (item.contains(resources.getString(R.string.logout))) {
                     auth.signOut()
@@ -220,7 +229,6 @@ class MainFragment : BrowseFragment() {
     }
 
     companion object {
-        private val TAG = "MainFragment"
         private val GRID_ITEM_WIDTH = 200
         private val GRID_ITEM_HEIGHT = 200
         private val NUM_COLS = 7

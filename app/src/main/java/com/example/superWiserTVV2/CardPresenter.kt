@@ -12,17 +12,17 @@
  * the License.
  */
 
-package com.example.superWiserTVV2.halfway
+package com.example.superWiserTVV2
 
+import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.support.v17.leanback.widget.ImageCardView
 import android.support.v17.leanback.widget.Presenter
 import android.support.v4.content.ContextCompat
-import android.util.Log
+import android.util.Base64
 import android.view.ViewGroup
 
 import com.bumptech.glide.Glide
-import com.example.superWiserTVV2.R
 import kotlin.properties.Delegates
 
 /**
@@ -35,12 +35,12 @@ class CardPresenter : Presenter() {
     private var sDefaultBackgroundColor: Int by Delegates.notNull()
 
     override fun onCreateViewHolder(parent: ViewGroup): Presenter.ViewHolder {
-        Log.d(TAG, "onCreateViewHolder")
-
-        sDefaultBackgroundColor = ContextCompat.getColor(parent.context,
+        sDefaultBackgroundColor = ContextCompat.getColor(
+            parent.context,
             R.color.default_background
         )
-        sSelectedBackgroundColor = ContextCompat.getColor(parent.context,
+        sSelectedBackgroundColor = ContextCompat.getColor(
+            parent.context,
             R.color.selected_background
         )
         mDefaultCardImage = ContextCompat.getDrawable(parent.context, R.drawable.movie)
@@ -64,12 +64,19 @@ class CardPresenter : Presenter() {
             CARD_WIDTH,
             CARD_HEIGHT
         )
-
         if (item is Group) {
             val group = item
             cardView.titleText = group.name
+
             Glide.with(viewHolder.view.context)
                 .load(group.imageUrl)
+                .centerCrop()
+                .error(mDefaultCardImage)
+                .into(cardView.mainImageView)
+        } else if (item is PlayGroup) {
+            cardView.titleText = item.name
+            Glide.with(viewHolder.view.context)
+                .load(item.imageUrl)
                 .centerCrop()
                 .error(mDefaultCardImage)
                 .into(cardView.mainImageView)
@@ -80,35 +87,33 @@ class CardPresenter : Presenter() {
                 .centerCrop()
                 .error(mDefaultCardImage)
                 .into(cardView.mainImageView)
-        } else if(item is Scene){
+        } else if (item is Scene) {
             cardView.titleText = item.name
-            Glide.with(viewHolder.view.context)
-                .load(item.thumbnail)
-                .centerCrop()
-                .error(mDefaultCardImage)
-                .into(cardView.mainImageView)
+            var encodedString = item.thumbnail.trim()
+            encodedString = encodedString.replace("data:image/png;base64,", "")
+            var decodedString = Base64.decode(encodedString, Base64.DEFAULT) as ByteArray
+            var bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+            cardView.mainImageView.setImageBitmap(bitmap)
+
         }
     }
 
     override fun onUnbindViewHolder(viewHolder: Presenter.ViewHolder) {
-        Log.d(TAG, "onUnbindViewHolder")
         val cardView = viewHolder.view as ImageCardView
-        // Remove references to images so that the garbage collector can free up memory
         cardView.badgeImage = null
         cardView.mainImage = null
     }
 
     private fun updateCardBackgroundColor(view: ImageCardView, selected: Boolean) {
         val color = if (selected) sSelectedBackgroundColor else sDefaultBackgroundColor
-        // Both background colors should be set because the view's background is temporarily visible
-        // during animations.
         view.setBackgroundColor(color)
         view.setInfoAreaBackgroundColor(color)
     }
 
     companion object {
-        private val TAG = "CardPresenter"
         private val CARD_WIDTH = 313
         private val CARD_HEIGHT = 176
     }
+
+
 }

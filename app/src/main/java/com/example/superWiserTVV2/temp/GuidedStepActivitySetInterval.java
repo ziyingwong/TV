@@ -1,4 +1,4 @@
-package com.example.superWiserTVV2;
+package com.example.superWiserTVV2.temp;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.v17.leanback.app.GuidedStepFragment;
 import android.support.v17.leanback.widget.GuidedAction;
 import android.util.Log;
+
+import com.example.superWiserTVV2.R;
 
 import java.util.List;
 

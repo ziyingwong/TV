@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.example.superWiserTVV2
+package com.example.superWiserTVV2.temp
 
 import android.app.Activity
 import android.app.Fragment
@@ -23,13 +23,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ProgressBar
+import com.example.superWiserTVV2.R
 
 /**
  * BrowseErrorActivity shows how to use ErrorFragment.
  */
 class BrowseErrorActivity : Activity() {
 
-    private lateinit var mErrorFragment: ErrorFragmentSceneNotFound 
+    private lateinit var mErrorFragment: ErrorFragmentSceneNotFound
     private lateinit var mSpinnerFragment: SpinnerFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,7 +70,9 @@ class BrowseErrorActivity : Activity() {
         ): View? {
             val progressBar = ProgressBar(container?.context)
             if (container is FrameLayout) {
-                val layoutParams = FrameLayout.LayoutParams(SPINNER_WIDTH, SPINNER_HEIGHT, Gravity.CENTER)
+                val layoutParams = FrameLayout.LayoutParams(
+                    SPINNER_WIDTH,
+                    SPINNER_HEIGHT, Gravity.CENTER)
                 progressBar.layoutParams = layoutParams
             }
             return progressBar

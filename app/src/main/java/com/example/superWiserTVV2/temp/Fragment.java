@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package com.example.superWiserTVV2;
+package com.example.superWiserTVV2.temp;
 
 import android.graphics.Paint;
 import android.graphics.Paint.FontMetricsInt;
@@ -21,6 +21,8 @@ import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.superWiserTVV2.R;
 
 /** @deprecated */
 @Deprecated
