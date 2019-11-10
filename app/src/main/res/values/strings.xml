@@ -8,8 +8,9 @@
     <string name="try_setinterval">Try Set Interval</string>
     <string name="guided_step_fragment">Guided Step Fragment</string>
     <string name="logout">Logout</string>
-    <string name="ipAdd">10.0.2.2</string>
-
+    <string name="ipAdd">192.168.0.112</string>
+<!--    <string name="ipAdd">10.0.2.2</string>-->
+    <string name="secureAdd">https://74cab07d.ngrok.io</string>
 
     <!-- Error messages -->
     <string name="error_fragment_message">An error occurred</string>

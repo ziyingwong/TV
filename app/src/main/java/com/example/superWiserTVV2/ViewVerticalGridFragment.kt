@@ -4,11 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v17.leanback.app.VerticalGridFragment
 import android.support.v17.leanback.widget.*
+import android.support.v4.content.ContextCompat
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class ViewGroupSceneFragment : VerticalGridFragment() {
+class ViewVerticalGridFragment : VerticalGridFragment() {
     var NUM_COLUMN = 4;
     var mAdapter = ArrayObjectAdapter()
     var db = FirebaseFirestore.getInstance()
@@ -113,6 +114,7 @@ class ViewGroupSceneFragment : VerticalGridFragment() {
             }
 
         }
+
         setupFragment()
         setEventListener()
     }
@@ -159,13 +161,13 @@ class ViewGroupSceneFragment : VerticalGridFragment() {
                             Log.e("myTag", "playgroup scene${p1.name}")
                         }
                     } else if (p1 is Group) {
-                        val intent = Intent(activity, ViewGroupSceneActivity::class.java)
+                        val intent = Intent(activity, ViewVerticalGridActivity::class.java)
                         intent.putExtra("groupid", p1.id)
                         intent.putExtra("viewingPageName", p1.name)
                         intent.putExtra("type", "group")
                         activity.startActivity(intent)
                     } else if (p1 is PlayGroup) {
-                        val intent = Intent(activity, ViewGroupSceneActivity::class.java)
+                        val intent = Intent(activity, ViewVerticalGridActivity::class.java)
                         intent.putExtra("groupid", p1.id)
                         intent.putExtra("viewingPageName", p1.name)
                         intent.putExtra("type", "playgroup")

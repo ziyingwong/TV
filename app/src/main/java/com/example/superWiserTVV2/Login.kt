@@ -16,10 +16,13 @@ package com.example.superWiserTVV2
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.webkit.CookieManager
 import android.widget.Button
 import android.widget.EditText
@@ -33,20 +36,32 @@ import com.google.firebase.auth.FirebaseAuth
 
 class Login : Activity() {
 
-    //link to server
 
     var auth = FirebaseAuth.getInstance()
     var cookiemanager = CookieManager.getInstance()
     lateinit var ipAdd: String
+//    lateinit var secure:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login)
         ipAdd = resources.getString(R.string.ipAdd)
+//        secure = resources.getString(R.string.secureAdd)
         var emailEditText = findViewById<EditText>(R.id.emailEditText)
         var passwordEditText = findViewById<EditText>(R.id.passwordEditText)
         var loginButton = findViewById<Button>(R.id.loginButton)
         var progressBar = findViewById<ProgressBar>(R.id.progressBar)
+        loginButton.setOnFocusChangeListener { view, b ->
+            var imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            if (b) {
+                imm.hideSoftInputFromWindow(view.windowToken, 0)
+                loginButton.background = resources.getDrawable(R.drawable.button_focus)
+            } else {
+                loginButton.background = resources.getDrawable(R.drawable.button_off_focus)
+            }
+
+        }
+
         loginButton.setOnClickListener {
             Log.e("myTag", "Loading : Login")
             progressBar.bringToFront()
@@ -89,7 +104,9 @@ class Login : Activity() {
                                         "http://${ipAdd}:3000",
                                         "access_token=${token}"
                                     )
-
+//                                    cookiemanager.setCookie(
+//                                        secure, "access_token=${token}"
+//                                    )
 
                                     val intent = Intent(this, MainActivity::class.java)
                                     startActivity(intent)
@@ -100,8 +117,8 @@ class Login : Activity() {
                                     var builder = AlertDialog.Builder(this)
                                     builder.setTitle("Fail to login")
                                     builder.setMessage("Server is off. Please try again later")
+                                    auth.signOut()
                                     builder.setNeutralButton("Ok") { dialog, which ->
-                                        auth.signOut()
                                         finishAffinity()
                                         startActivity(Intent(this, Login::class.java))
                                     }
@@ -150,13 +167,16 @@ class Login : Activity() {
             loginButton.isClickable = false
             val sharedPref = this.getSharedPreferences("pref", 0)
             var token = sharedPref.getString("token", "")
+            Log.e("myTag", token)
             if (token.isNullOrBlank() == false) {
                 cookiemanager.setCookie(
                     "http://${ipAdd}:3000",
                     "access_token=${token}"
                 )
-                var cookie = cookiemanager.getCookie("http://${ipAdd}:3000")
-                Log.e("myTag", "cookie : ${cookie}")
+//                cookiemanager.setCookie(
+//                    secure,
+//                    "access_token=${token}"
+//                )
 
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
@@ -169,10 +189,13 @@ class Login : Activity() {
         }
     }
 
+
     override fun onBackPressed() {
         super.onBackPressed()
         finishAffinity()
     }
+
+
 }
 
 

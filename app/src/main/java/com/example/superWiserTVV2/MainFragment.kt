@@ -17,6 +17,7 @@ package com.example.superWiserTVV2
 import java.util.Timer
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v17.leanback.app.BrowseFragment
@@ -55,7 +56,6 @@ class MainFragment : BrowseFragment() {
                     for (doc in snapshot.documents) {
                         var group = doc.toObject(Group::class.java)
                         groups.add(group as Group)
-                        Log.e("myTag", group.name)
                     }
                     loadRows()
                 } else {
@@ -73,7 +73,6 @@ class MainFragment : BrowseFragment() {
                     for (doc in snapshot.documents) {
                         var playgroup = doc.toObject(PlayGroup::class.java)
                         playgroups.add(playgroup as PlayGroup)
-                        Log.e("myTag", playgroup.name)
                     }
                     loadRows()
                 } else {
@@ -172,26 +171,27 @@ class MainFragment : BrowseFragment() {
         ) {
 
             if (item is Group) {
-                val intent = Intent(activity, ViewGroupSceneActivity::class.java)
+                val intent = Intent(activity, ViewVerticalGridActivity::class.java)
                 intent.putExtra("groupid", item.id)
                 intent.putExtra("viewingPageName", item.name)
                 intent.putExtra("type", "group")
                 activity.startActivity(intent)
 
             } else if (item is PlayGroup) {
-                val intent = Intent(activity, ViewGroupSceneActivity::class.java)
+                val intent = Intent(activity, ViewVerticalGridActivity::class.java)
                 intent.putExtra("groupid", item.id)
                 intent.putExtra("viewingPageName", item.name)
                 intent.putExtra("type", "playgroup")
                 activity.startActivity(intent)
             } else if (item is Card) {
-                val intent = Intent(activity, ViewGroupSceneActivity::class.java)
+                val intent = Intent(activity, ViewVerticalGridActivity::class.java)
                 intent.putExtra("viewingPageName", "viewmore")
                 intent.putExtra("type", item.type)
                 activity.startActivity(intent)
             } else if (item is String) {
                 if (item.contains(resources.getString(R.string.logout))) {
                     auth.signOut()
+                    activity.getSharedPreferences("pref",0).edit().clear().apply()
                     val intent = Intent(activity, Login::class.java)
                     activity.finishAffinity()
                     startActivity(intent)
