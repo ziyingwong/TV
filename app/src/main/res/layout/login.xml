@@ -96,7 +96,8 @@
                     android:drawableLeft="@drawable/email"
                     android:ems="10"
                     android:hint="Email"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:nextFocusDown="@id/passwordEditText"/>
 
             <EditText
                     android:id="@+id/passwordEditText"

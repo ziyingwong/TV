@@ -62,6 +62,7 @@ class Login : Activity() {
 
         }
 
+
         loginButton.setOnClickListener {
             Log.e("myTag", "Loading : Login")
             progressBar.bringToFront()
