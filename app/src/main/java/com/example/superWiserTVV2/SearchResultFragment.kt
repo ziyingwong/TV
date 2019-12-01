@@ -38,6 +38,7 @@ import android.content.ActivityNotFoundException
 import android.support.v17.leanback.widget.SpeechRecognitionCallback
 import android.Manifest.permission
 import android.Manifest.permission.RECORD_AUDIO
+import android.app.AlertDialog
 import android.app.Fragment
 import android.content.pm.PackageManager
 import android.os.AsyncTask
@@ -222,11 +223,30 @@ class SearchResultFragment : SearchFragment(), SearchFragment.SearchResultProvid
                 activity.startActivity(intent)
 
             } else if (item is PlayGroup) {
-                val intent = Intent(activity, ViewVerticalGridActivity::class.java)
-                intent.putExtra("groupid", item.id)
-                intent.putExtra("viewingPageName", item.name)
-                intent.putExtra("type", "playgroup")
-                activity.startActivity(intent)
+                val intent = Intent(activity, PlaySceneActivity::class.java)
+                db.collection("scene").whereArrayContains("playgroup", item.id).get().addOnSuccessListener { snapshot ->
+                    if (snapshot.documents.size < 1) {
+                        AlertDialog.Builder(activity)
+                            .setTitle("Empty Playgroup")
+                            .setMessage("This is an empty playgroup")
+                            .setNeutralButton("Dismiss", null)
+                            .show()
+                    } else {
+                        for (doc in snapshot.documents) {
+                            var scene = doc.toObject(Scene::class.java)
+                            DataContainer.playscene.add(scene!!)
+                        }
+                        activity.startActivity(intent)
+                    }
+
+                }.addOnFailureListener { e ->
+                    Log.e("mytag", "$e")
+                    AlertDialog.Builder(activity)
+                        .setTitle("Error")
+                        .setMessage("Error occurred when loading playgroup. \n$e")
+                        .setNeutralButton("Dismiss", null)
+                        .show()
+                }
             } else if (item is Scene) {
                 val intent = Intent(activity, GroupScene::class.java)
                 intent.putExtra("id", item.id)

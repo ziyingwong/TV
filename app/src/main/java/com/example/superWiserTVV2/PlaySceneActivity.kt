@@ -117,8 +117,8 @@ class PlaySceneActivity : FragmentActivity() {
             previewCardView.setOnClickListener {
                 DataContainer.isRunning = false
                 Handler().postDelayed({
-                    DataContainer.selected  = DataContainer.playscene.indexOf(item)
-                    Log.e("mytag",item.name)
+                    DataContainer.selected = DataContainer.playscene.indexOf(item)
+                    Log.e("mytag", item.name)
                     lateinit var fragmentTransaction: FragmentTransaction
                     fragmentTransaction = fragmentManager.beginTransaction()
                     if (fragmentManager.backStackEntryCount > 0) {
@@ -142,6 +142,10 @@ class PlaySceneActivity : FragmentActivity() {
         } else {
             super.onBackPressed()
             DataContainer.isRunning = false
+            DataContainer.counter = DataContainer.timeInterval
+            DataContainer.playscene.clear()
+            DataContainer.selected = 0
+
         }
     }
 }
