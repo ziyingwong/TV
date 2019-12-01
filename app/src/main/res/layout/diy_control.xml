@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#CC000000"
+            android:fillViewport="true">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_alignParentBottom="true"
+                      android:orientation="vertical">
+            <TextView android:id="@+id/sceneName"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity=""
+                      android:layout_marginStart="20dp"
+                      android:layout_marginTop="15dp"
+                      android:layout_marginBottom="15dp"
+                      android:text="Scene name"
+                      android:textColor="#FFFFFFFF"
+                      android:textSize="40dp"/>
+
+            <RelativeLayout android:id="@+id/control"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                <ImageView android:id="@+id/previous"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_alignParentLeft="true"
+                           android:layout_marginStart="15dp"
+                           android:layout_marginTop="5dp"
+                           android:layout_marginEnd="15dp"
+                           android:layout_marginBottom="5dp"
+
+                           android:clickable="true"
+                           android:focusable="true"
+                           android:padding="10dp"
+                           android:src="@drawable/ic_skip_previous_white_24dp"/>
+
+                <ImageView android:id="@+id/playpause"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_marginTop="5dp"
+                           android:layout_marginEnd="15dp"
+                           android:layout_marginBottom="5dp"
+                           android:layout_toRightOf="@+id/previous"
+                           android:clickable="true"
+                           android:focusable="true"
+                           android:padding="10dp"
+                           android:src="@drawable/ic_pause_black_24dp"/>
+                <ImageView android:id="@+id/next"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_marginTop="5dp"
+                           android:layout_marginBottom="5dp"
+                           android:layout_toRightOf="@+id/playpause"
+                           android:clickable="true"
+                           android:focusable="true"
+                           android:padding="10dp"
+                           android:src="@drawable/ic_skip_next_white_24dp"/>
+                <ImageView android:id="@+id/timer"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_alignParentEnd="true" android:layout_marginTop="5dp"
+                           android:layout_marginEnd="30dp"
+                           android:layout_marginBottom="5dp"
+                           android:clickable="true"
+                           android:focusable="true"
+                           android:padding="10dp"
+                           android:src="@drawable/ic_access_time_black_24dp"/>
+            </RelativeLayout>
+
+            <LinearLayout android:id="@+id/showNext"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="vertical">
+
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>

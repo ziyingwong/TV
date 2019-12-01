@@ -14,6 +14,7 @@
 
 package com.example.superWiserTVV2
 
+import android.app.AlertDialog
 import java.util.Timer
 
 import android.content.Intent
@@ -37,6 +38,7 @@ import com.google.firebase.firestore.FirebaseFirestore
  */
 class MainFragment : BrowseFragment() {
 
+
     var auth = FirebaseAuth.getInstance()
     var db = FirebaseFirestore.getInstance()
     private var mBackgroundTimer: Timer? = null
@@ -56,8 +58,8 @@ class MainFragment : BrowseFragment() {
                     for (doc in snapshot.documents) {
                         var group = doc.toObject(Group::class.java)
                         groups.add(group as Group)
+                        loadRows()
                     }
-                    loadRows()
                 } else {
                     Log.e("myTag", "snapshot null")
                 }
@@ -73,8 +75,8 @@ class MainFragment : BrowseFragment() {
                     for (doc in snapshot.documents) {
                         var playgroup = doc.toObject(PlayGroup::class.java)
                         playgroups.add(playgroup as PlayGroup)
+                        loadRows()
                     }
-                    loadRows()
                 } else {
                     Log.e("myTag", "snapshot null")
                 }
@@ -155,9 +157,10 @@ class MainFragment : BrowseFragment() {
     }
 
     private fun setupEventListeners() {
+
         setOnSearchClickedListener {
-            Toast.makeText(activity, "Implement your own in-app search", Toast.LENGTH_LONG)
-                .show()
+            val intent = Intent(activity, SearchResultActivity::class.java)
+            activity.startActivity(intent)
         }
         onItemViewClickedListener = ItemViewClickedListener()
     }
@@ -178,11 +181,31 @@ class MainFragment : BrowseFragment() {
                 activity.startActivity(intent)
 
             } else if (item is PlayGroup) {
-                val intent = Intent(activity, ViewVerticalGridActivity::class.java)
-                intent.putExtra("groupid", item.id)
-                intent.putExtra("viewingPageName", item.name)
-                intent.putExtra("type", "playgroup")
-                activity.startActivity(intent)
+                val intent = Intent(activity, PlaySceneActivity::class.java)
+                db.collection("scene").whereArrayContains("playgroup", item.id).get().addOnSuccessListener { snapshot ->
+                    if (snapshot.documents.size < 1) {
+                        AlertDialog.Builder(activity)
+                            .setTitle("Empty Playgroup")
+                            .setMessage("This is an empty playgroup")
+                            .setNeutralButton("Dismiss", null)
+                            .show()
+                    } else {
+                        for (doc in snapshot.documents) {
+                            var scene = doc.toObject(Scene::class.java)
+                            DataContainer.playscene.add(scene!!)
+                        }
+                        activity.startActivity(intent)
+                    }
+
+                }.addOnFailureListener { e ->
+                    Log.e("mytag", "$e")
+                    AlertDialog.Builder(activity)
+                        .setTitle("Error")
+                        .setMessage("Error occurred when loading playgroup. \n$e")
+                        .setNeutralButton("Dismiss", null)
+                        .show()
+                }
+
             } else if (item is Card) {
                 val intent = Intent(activity, ViewVerticalGridActivity::class.java)
                 intent.putExtra("viewingPageName", "viewmore")
@@ -191,7 +214,7 @@ class MainFragment : BrowseFragment() {
             } else if (item is String) {
                 if (item.contains(resources.getString(R.string.logout))) {
                     auth.signOut()
-                    activity.getSharedPreferences("pref",0).edit().clear().apply()
+                    activity.getSharedPreferences("pref", 0).edit().clear().apply()
                     val intent = Intent(activity, Login::class.java)
                     activity.finishAffinity()
                     startActivity(intent)

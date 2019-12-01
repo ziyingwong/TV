@@ -30,20 +30,15 @@ import kotlin.properties.Delegates
  * It contains an ImageCardView.
  */
 class CardPresenter : Presenter() {
+
     private var mDefaultCardImage: Drawable? = null
     private var sSelectedBackgroundColor: Int by Delegates.notNull()
     private var sDefaultBackgroundColor: Int by Delegates.notNull()
 
     override fun onCreateViewHolder(parent: ViewGroup): Presenter.ViewHolder {
-        sDefaultBackgroundColor = ContextCompat.getColor(
-            parent.context,
-            R.color.default_background
-        )
-        sSelectedBackgroundColor = ContextCompat.getColor(
-            parent.context,
-            R.color.selected_background
-        )
-        mDefaultCardImage = ContextCompat.getDrawable(parent.context, R.drawable.movie)
+        sDefaultBackgroundColor = ContextCompat.getColor(parent.context, R.color.default_background)
+        sSelectedBackgroundColor = ContextCompat.getColor(parent.context, R.color.selected_background)
+        mDefaultCardImage = ContextCompat.getDrawable(parent.context, R.drawable.empty)
 
         val cardView = object : ImageCardView(parent.context) {
             override fun setSelected(selected: Boolean) {
@@ -65,21 +60,40 @@ class CardPresenter : Presenter() {
             CARD_HEIGHT
         )
         if (item is Group) {
+
             val group = item
             cardView.titleText = group.name
 
-            Glide.with(viewHolder.view.context)
-                .load(group.imageUrl)
-                .centerCrop()
-                .error(mDefaultCardImage)
-                .into(cardView.mainImageView)
+            if (item.imageUrl.isNullOrBlank()) {
+                Glide.with(viewHolder.view.context)
+                    .load("https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg")
+                    .centerCrop()
+                    .error(mDefaultCardImage)
+                    .into(cardView.mainImageView)
+            } else {
+                var encodedString = item.imageUrl.trim()
+                encodedString = encodedString.replace("data:image/png;base64,", "")
+                var decodedString = Base64.decode(encodedString, Base64.DEFAULT) as ByteArray
+                var bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+                cardView.mainImageView.setImageBitmap(bitmap)
+            }
+
         } else if (item is PlayGroup) {
             cardView.titleText = item.name
-            Glide.with(viewHolder.view.context)
-                .load(item.imageUrl)
-                .centerCrop()
-                .error(mDefaultCardImage)
-                .into(cardView.mainImageView)
+            if (item.imageUrl.isNullOrBlank()) {
+                Glide.with(viewHolder.view.context)
+                    .load("https://www.generationsforpeace.org/wp-content/uplods/2018/03/empty.jpg")
+                    .centerCrop()
+                    .error(mDefaultCardImage)
+                    .into(cardView.mainImageView)
+            } else {
+                var encodedString = item.imageUrl.trim()
+                encodedString = encodedString.replace("data:image/png;base64,", "")
+                var decodedString = Base64.decode(encodedString, Base64.DEFAULT) as ByteArray
+                var bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+                cardView.mainImageView.setImageBitmap(bitmap)
+            }
+
         } else if (item is Card) {
             cardView.titleText = item.title
             Glide.with(viewHolder.view.context)

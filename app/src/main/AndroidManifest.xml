@@ -3,6 +3,7 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="com.example.superWiserTVV2">
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"></uses-permission>
     <uses-feature
             android:name="android.hardware.touchscreen"
             android:required="false"/>
@@ -29,18 +30,18 @@
 
     <application
             android:allowBackup="true"
+            android:hardwareAccelerated="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
-            android:hardwareAccelerated="true"
-            android:usesCleartextTraffic="true"
             android:supportsRtl="true"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:usesCleartextTraffic="true">
         <activity
                 android:name="com.example.superWiserTVV2.Login"
                 android:banner="@drawable/tvapp"
+                android:configChanges="keyboard|keyboardHidden|navigation"
                 android:icon="@drawable/tvapp"
                 android:label="@string/app_name"
-                android:configChanges="keyboard|keyboardHidden|navigation"
                 android:logo="@drawable/tvapp"
                 android:screenOrientation="landscape"
 
@@ -50,7 +51,7 @@
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER"/>
             </intent-filter>
         </activity>
-
+        <activity android:name=".SearchResultActivity"></activity>
         <activity android:name="com.example.superWiserTVV2.temp.BrowseErrorActivity"/>
         <activity android:name="com.example.superWiserTVV2.InvalidPassword"></activity>
         <activity android:name="com.example.superWiserTVV2.temp.GuidedStepActivitySetInterval"></activity>
@@ -58,6 +59,8 @@
         <activity android:name=".EmailSent"></activity>
         <activity android:name=".ViewVerticalGridActivity"></activity>
         <activity android:name=".GroupScene"></activity>
+        <activity android:name=".PlaySceneActivity"
+        android:exported="true"></activity>
     </application>
 
 </manifest>
