@@ -33,6 +33,8 @@ class ControlFragment : Fragment() {
         previous = v.findViewById(R.id.previous)
         next = v.findViewById(R.id.next)
         time = v.findViewById(R.id.timer)
+
+        sceneName.text = DataContainer.playscene.get(DataContainer.selected).name
         if (!DataContainer.isRunning) {
             play.setImageResource(R.drawable.ic_play_arrow_white_48dp)
         }

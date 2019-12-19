@@ -112,7 +112,8 @@ class Login : Activity() {
 
                                         editor.apply()
                                         cookiemanager.setCookie(
-                                            "http://${ipAdd}:3000",
+//                                            "http://${ipAdd}:3000",
+                                            "https://board.opa-x.com",
                                             "access_token=${token}"
                                         )
 
@@ -179,7 +180,8 @@ class Login : Activity() {
             Log.e("myTag", token)
             if (token.isNullOrBlank() == false) {
                 cookiemanager.setCookie(
-                    "http://${ipAdd}:3000",
+//                    "http://${ipAdd}:3000",
+                    "https://board.opa-x.com",
                     "access_token=${token}"
                 )
 

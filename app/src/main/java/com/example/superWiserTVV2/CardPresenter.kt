@@ -20,6 +20,7 @@ import android.support.v17.leanback.widget.ImageCardView
 import android.support.v17.leanback.widget.Presenter
 import android.support.v4.content.ContextCompat
 import android.util.Base64
+import android.util.Log
 import android.view.ViewGroup
 
 import com.bumptech.glide.Glide
@@ -73,6 +74,7 @@ class CardPresenter : Presenter() {
             } else {
                 var encodedString = item.imageUrl.trim()
                 encodedString = encodedString.replace("data:image/png;base64,", "")
+                Log.e("mytag",encodedString)
                 var decodedString = Base64.decode(encodedString, Base64.DEFAULT) as ByteArray
                 var bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
                 cardView.mainImageView.setImageBitmap(bitmap)
@@ -82,7 +84,7 @@ class CardPresenter : Presenter() {
             cardView.titleText = item.name
             if (item.imageUrl.isNullOrBlank()) {
                 Glide.with(viewHolder.view.context)
-                    .load("https://www.generationsforpeace.org/wp-content/uplods/2018/03/empty.jpg")
+                    .load("https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg")
                     .centerCrop()
                     .error(mDefaultCardImage)
                     .into(cardView.mainImageView)

@@ -68,25 +68,25 @@ class SearchResultFragment : SearchFragment(), SearchFragment.SearchResultProvid
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (ContextCompat.checkSelfPermission(
-                activity,
-                Manifest.permission.RECORD_AUDIO
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.RECORD_AUDIO), 0)
-        } else {
-            setSpeechRecognitionCallback(object : SpeechRecognitionCallback {
-                override fun recognizeSpeech() {
-                    try {
-                        startActivityForResult(recognizerIntent, REQUEST_SPEECH)
-                    } catch (e: ActivityNotFoundException) {
-                        Log.e("mytag", "$e")
-                    }
-                }
-            })
-            setSearchResultProvider(this)
-            setOnItemViewClickedListener(ItemViewClickedListener())
-        }
+//        if (ContextCompat.checkSelfPermission(
+//                activity,
+//                Manifest.permission.RECORD_AUDIO
+//            ) != PackageManager.PERMISSION_GRANTED
+//        ) {
+//            ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.RECORD_AUDIO), 0)
+//        } else {
+//        setSpeechRecognitionCallback(object : SpeechRecognitionCallback {
+//            override fun recognizeSpeech() {
+//                try {
+//                    startActivityForResult(recognizerIntent, REQUEST_SPEECH)
+//                } catch (e: ActivityNotFoundException) {
+//                    Log.e("mytag", "$e")
+//                }
+//            }
+//        })
+        setSearchResultProvider(this)
+        setOnItemViewClickedListener(ItemViewClickedListener())
+//        }
 
     }
 
@@ -102,7 +102,8 @@ class SearchResultFragment : SearchFragment(), SearchFragment.SearchResultProvid
                 .addOnSuccessListener { group ->
                     for (g in group.documents) {
 
-                        db.collection("scene").whereEqualTo("group", g.id).orderBy("lowercasename").startAt(s)
+                        db.collection("scene").whereEqualTo("group", g.id).orderBy("lowercasename")
+                            .startAt(s)
                             .endAt(s.replace("\\s".toRegex(), "").toLowerCase() + "\uf8ff").get()
                             .addOnSuccessListener { scenesSnapshot ->
                                 if (!scenesSnapshot.documents.isNullOrEmpty()) {
@@ -123,7 +124,8 @@ class SearchResultFragment : SearchFragment(), SearchFragment.SearchResultProvid
                     }
 
                 }
-            db.collection("Group").whereArrayContains("user", auth.currentUser!!.uid).orderBy("lowercasename")
+            db.collection("Group").whereArrayContains("user", auth.currentUser!!.uid)
+                .orderBy("lowercasename")
                 .startAt(s)
                 .endAt(s?.replace("\\s".toRegex(), "").toLowerCase() + "\uf8ff").get()
                 .addOnSuccessListener { groupSnapshot ->
@@ -144,7 +146,8 @@ class SearchResultFragment : SearchFragment(), SearchFragment.SearchResultProvid
                 }
 
 
-            db.collection("PlayGroup").whereArrayContains("user", auth.currentUser!!.uid).orderBy("lowercasename")
+            db.collection("PlayGroup").whereArrayContains("user", auth.currentUser!!.uid)
+                .orderBy("lowercasename")
                 .startAt(s)
                 .endAt(s.replace("\\s".toRegex(), "").toLowerCase() + "\uf8ff").get()
                 .addOnSuccessListener { playGroupSnapshot ->
@@ -224,22 +227,23 @@ class SearchResultFragment : SearchFragment(), SearchFragment.SearchResultProvid
 
             } else if (item is PlayGroup) {
                 val intent = Intent(activity, PlaySceneActivity::class.java)
-                db.collection("scene").whereArrayContains("playgroup", item.id).get().addOnSuccessListener { snapshot ->
-                    if (snapshot.documents.size < 1) {
-                        AlertDialog.Builder(activity)
-                            .setTitle("Empty Playgroup")
-                            .setMessage("This is an empty playgroup")
-                            .setNeutralButton("Dismiss", null)
-                            .show()
-                    } else {
-                        for (doc in snapshot.documents) {
-                            var scene = doc.toObject(Scene::class.java)
-                            DataContainer.playscene.add(scene!!)
+                db.collection("scene").whereArrayContains("playgroup", item.id).get()
+                    .addOnSuccessListener { snapshot ->
+                        if (snapshot.documents.size < 1) {
+                            AlertDialog.Builder(activity)
+                                .setTitle("Empty Playgroup")
+                                .setMessage("This is an empty playgroup")
+                                .setNeutralButton("Dismiss", null)
+                                .show()
+                        } else {
+                            for (doc in snapshot.documents) {
+                                var scene = doc.toObject(Scene::class.java)
+                                DataContainer.playscene.add(scene!!)
+                            }
+                            activity.startActivity(intent)
                         }
-                        activity.startActivity(intent)
-                    }
 
-                }.addOnFailureListener { e ->
+                    }.addOnFailureListener { e ->
                     Log.e("mytag", "$e")
                     AlertDialog.Builder(activity)
                         .setTitle("Error")
